@@ -43,5 +43,10 @@ def main():
   print("Task completed")
   
 
+def run_script():
+  main()
+
+
 if __name__ == '__main__':
     main()
+

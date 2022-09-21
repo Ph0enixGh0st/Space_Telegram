@@ -64,5 +64,10 @@ def main(api_key):
 
   print("Task completed")
 
+
+def run_script(api_key):
+  main(api_key)
+
+
 if __name__ == '__main__':
     main()
