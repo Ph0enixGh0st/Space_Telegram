@@ -24,7 +24,7 @@ def start_spam(bot, tg_channel, timer_delay, photo_path):
         for photo in files_pool:
 
             bot.send_message(chat_id=tg_channel, text=f"uploaded {photo}")
-            with open(f'{photo_path}/{photo}', 'rb') as file:
+            with open(os.path.join(photo_path, photo), 'rb') as file:
                 bot.send_document(chat_id=tg_channel, document=file)
             time.sleep(timer_delay)
 
@@ -45,7 +45,7 @@ def main():
 
     fetch_nasa_apod_images.run_script(api_key)
     fetch_nasa_epic_images.run_script(api_key)
-    fetch_spacex_images.run_sript()
+    fetch_spacex_images.run_script()
 
     start_spam(bot, tg_channel, timer_delay, photo_path)
 
