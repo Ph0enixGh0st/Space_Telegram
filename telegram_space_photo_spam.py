@@ -43,8 +43,8 @@ def main():
     photo_path = os.path.join(current_dir, "tg_upload_photos_pool")
     timer_delay = float(os.environ.get('LOG_INTERVAL'))
 
-    fetch_nasa_apod_images.run_script(api_key)
-    fetch_nasa_epic_images.run_script(api_key)
+    fetch_nasa_apod_images.run_script()
+    fetch_nasa_epic_images.run_script()
     fetch_spacex_images.run_script()
 
     start_spam(bot, tg_channel, timer_delay, photo_path)

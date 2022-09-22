@@ -2,6 +2,7 @@ import argparse
 import os
 import requests
 
+from dotenv import load_dotenv
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -30,8 +31,12 @@ def fetch_nasa_apod_images(path, api_key, count):
     print(f"Here goes APOD photo #{n}")
 
 
-def main(api_key):
+def main():
   
+  load_dotenv()
+
+  path = "tg_upload_photos_pool"
+  api_key = os.environ['NASA_API_KEY']
   parser = argparse.ArgumentParser(
   description='The script downloads photos from NASA APOD API'
   )
@@ -39,13 +44,12 @@ def main(api_key):
   args = parser.parse_args()
   count = int(args.qty)
 
-  
-  fetch_nasa_apod_images("tg_upload_photos_pool\\", api_key, count)
+  fetch_nasa_apod_images(path, api_key, count)
   print("Task completed")
 
 
-def run_script(api_key):
-  main(api_key)
+def run_script():
+  main()
 
 
 if __name__ == '__main__':
