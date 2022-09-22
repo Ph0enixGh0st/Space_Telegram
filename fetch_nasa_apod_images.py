@@ -28,7 +28,6 @@ def fetch_nasa_apod_images(path, api_key, count):
     with open(f"{os.path.join(path, file_name)}.jpeg", 'wb') as file:
         file.write(nasa_photo.content)
     cycle_count += 1
-    print(f"Here goes APOD photo #{cycle_count}")
 
 
 def main():

@@ -2,6 +2,7 @@ import argparse
 import os
 import requests
 
+from dotenv import load_dotenv
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -26,8 +27,7 @@ def get_nasa_epic(path, api_key, count=15):
       image_name_pool.raise_for_status()
       image_name_pool = image_name_pool.json()
       image_name = image_name_pool[0]["image"]
-      
-           
+                 
       single_date = single_date.replace("-", "/")
             
       nasa_epic_url = f"https://api.nasa.gov/EPIC/archive/natural/{single_date}/png/{image_name}.png"
@@ -35,18 +35,14 @@ def get_nasa_epic(path, api_key, count=15):
       nasa_epic_photo.raise_for_status()
       file_name = f"nasa_epic_{cycle_count}"
       
-
       with open(f"{os.path.join(path, file_name)}.png", 'wb') as file:
         file.write(nasa_epic_photo.content)
-      
       cycle_count += 1
-      
-      print(f"Here goes EPIC photo #{cycle_count}")
 
 
 def main():
   
-  loaddotenv()
+  load_dotenv()
 
   api_key = os.environ['NASA_API_KEY']
   parser = argparse.ArgumentParser(
@@ -55,13 +51,11 @@ def main():
   parser.add_argument("-q", "--qty", default=15, help='How many photos you want to download? Q-ty is 10 by default', type=int)
   args = parser.parse_args()
   count = int(args.qty)
-  
   current_dir = os.getcwd()
   path = os.path.join(current_dir, "tg_upload_photos_pool")
   Path(f"{path}").mkdir(parents=True, exist_ok=True)
 
   get_nasa_epic(path, api_key, count)
-  print("Task completed")
 
 
 def run_script(api_key):

@@ -1,4 +1,5 @@
 import argparse
+import os
 import requests
 
 from importlib.resources import path
@@ -7,22 +8,19 @@ from pathlib import Path
 
 def fetch_spacex_images(path="tg_upload_photos_pool", launch_id="latest"):
 
-  launch_data_url = f"https://api.spacexdata.com/v5/launches/{launch_id}"
-  launch_data = requests.get(launch_data_url)
-  launch_data.raise_for_status()
-  launch_data = launch_data.json()
+  spacex_launches_url = f"https://api.spacexdata.com/v5/launches/{launch_id}"
+  spacex_launches = requests.get(spacex_launches_url)
+  spacex_launches.raise_for_status()
+  spacex_launches = spacex_launches.json()
+
+  for photo_number, photo in enumerate(spacex_launches['links']["flickr"]["original"]):
     
-  n = 0
-  for photo in launch_data['links']["flickr"]["original"]:
-  
-    file_name = "spacex_" + str(n)
-    launch_data = requests.get(photo)
-    launch_data.raise_for_status()
+    file_name = f"spacex_{photo_number}"
+    spacex_launches = requests.get(photo)
+    spacex_launches.raise_for_status()
     with open(f"{os.path.join(path, file_name)}.jpeg", 'wb') as file:
-        file.write(launch_data.content)
-    n += 1
-    print(f"Here goes Space X photo #{n}")
-    
+        file.write(spacex_launches.content)
+           
 
 def main():
   
