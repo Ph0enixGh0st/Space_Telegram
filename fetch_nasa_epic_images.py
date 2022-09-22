@@ -2,7 +2,6 @@ import argparse
 import os
 import requests
 
-from dotenv import load_dotenv
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -23,10 +22,10 @@ def get_nasa_epic(path, api_key, count=15):
       single_date = all_dates_response[cycle_count]["date"]
       nasa_epic_url_blank = f"https://api.nasa.gov/EPIC/api/natural/date/{single_date}"
       
-      image_name_response = requests.get(nasa_epic_url_blank, params=payload)
-      image_name_response.raise_for_status()
-      image_name_response = image_name_response.json()
-      image_name = image_name_response[0]["image"]
+      image_name_pool = requests.get(nasa_epic_url_blank, params=payload)
+      image_name_pool.raise_for_status()
+      image_name_pool = image_name_pool.json()
+      image_name = image_name_pool[0]["image"]
       
            
       single_date = single_date.replace("-", "/")
@@ -47,7 +46,7 @@ def get_nasa_epic(path, api_key, count=15):
 
 def main():
   
-  load_dotenv()
+  loaddotenv()
 
   api_key = os.environ['NASA_API_KEY']
   parser = argparse.ArgumentParser(
@@ -65,7 +64,7 @@ def main():
   print("Task completed")
 
 
-def run_script():
+def run_script(api_key):
   main()
 
 

@@ -13,22 +13,22 @@ def fetch_nasa_apod_images(path, api_key, count):
 
   payload = {"api_key": api_key, "count": count}
   nasa_apod_url = "https://api.nasa.gov/planetary/apod"
-  response = requests.get(nasa_apod_url, params=payload)
-  response.raise_for_status()
-  response = response.json()
+  nasa_apod_images_pool = requests.get(nasa_apod_url, params=payload)
+  nasa_apod_images_pool.raise_for_status()
+  nasa_apod_images_pool = nasa_apod_images_pool.json()
 
-  n = 0
+  cycle_count = 0
   
-  for photo in response:
+  for photo in nasa_apod_images_pool:
     
-    file_name = "nasa_" + str(n)
-    url = response[n]["url"]
+    file_name = f"nasa_{str(cycle_count)}"
+    url = nasa_apod_images_pool[cycle_count]["url"]
     nasa_photo = requests.get(url)
     nasa_photo.raise_for_status()
     with open(f"{os.path.join(path, file_name)}.jpeg", 'wb') as file:
         file.write(nasa_photo.content)
-    n += 1
-    print(f"Here goes APOD photo #{n}")
+    cycle_count += 1
+    print(f"Here goes APOD photo #{cycle_count}")
 
 
 def main():
