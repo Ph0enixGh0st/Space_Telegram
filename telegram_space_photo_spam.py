@@ -12,13 +12,13 @@ import fetch_spacex_images
 
 
 def start_spam(bot, tg_channel, timer_delay, photo_path):
-    
+
     loop_on = True
     files_pool = []
 
     for root, dirs, files in os.walk(photo_path):
         files_pool = files
-              
+
     while loop_on:
 
         for photo in files_pool:
@@ -32,20 +32,20 @@ def start_spam(bot, tg_channel, timer_delay, photo_path):
 
 
 def main():
-  
+
     load_dotenv()
 
-    tg_token = os.environ['TG_TOKEN']
+    tg_token = os.environ["TG_TOKEN"]
     bot = telegram.Bot(token=tg_token)
-    tg_channel=os.environ["TG_CHANNEL"]
-    api_key = os.environ['NASA_API_KEY']
+    tg_channel = os.environ["TG_CHANNEL"]
+    api_key = os.environ["NASA_API_KEY"]
     current_dir = os.getcwd()
     photo_path = os.path.join(current_dir, "tg_upload_photos_pool")
-    timer_delay = float(os.environ.get('LOG_INTERVAL'))
+    timer_delay = float(os.environ.get("LOG_INTERVAL"))
 
-    fetch_nasa_apod_images.run_script()
-    fetch_nasa_epic_images.run_script()
-    fetch_spacex_images.run_script()
+    fetch_nasa_apod_images.fetch_nasa_apod_images(photo_path, api_key)
+    fetch_nasa_epic_images.get_nasa_epic(photo_path, api_key)
+    fetch_spacex_images.fetch_spacex_images()
 
     start_spam(bot, tg_channel, timer_delay, photo_path)
 
